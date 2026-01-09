@@ -6,22 +6,34 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject titleScreen;
+    public GameObject gameScreen;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public GameObject[] targets;
     public float spawnInterval = 1.0f;
     private int score = 0;
-    private bool isGameActive = true;
+    private bool isGameActive = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        titleScreen.SetActive(true);
+        gameScreen.SetActive(false);
+       
+
+    }
+
+    public void BeginGame(int difficulty)
+    {
+        spawnInterval /= difficulty;
+        titleScreen.SetActive(false);
+        gameScreen.SetActive(true);
+        isGameActive = true;
         restartButton.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
         StartCoroutine(SpawnTarget());
         UpdateScore(0);
-       
-
     }
     IEnumerator SpawnTarget()
     {
